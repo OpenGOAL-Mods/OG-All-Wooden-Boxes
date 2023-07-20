@@ -1896,7 +1896,7 @@
     )
   (none)
   )
-
+(defun-extern reset-crate-count none)
 (defmethod respond-memcard progress ((obj progress))
   "logic for handling input in memcard screens."
 
@@ -1996,9 +1996,11 @@
               (set! (-> *game-info* mode) 'play)
               ;; Start a new game differently if speedrunning mode is active
               (cond ((-> *pc-settings* speedrunner-mode?)
-                     (speedrun-start-full-game-run))
+                     (speedrun-start-full-game-run)
+                     (reset-crate-count))
                     ;; start the game normally
                     (else
+                     (reset-crate-count)
                      (initialize! *game-info* 'game (the-as game-save #f) "intro-start")))
               (set-master-mode 'game)
               )
@@ -2085,9 +2087,11 @@
               (set! (-> *game-info* mode) 'play)
               ;; Start a new game differently if speedrunning mode is active
               (cond ((-> *pc-settings* speedrunner-mode?)
+                     (reset-crate-count)
                      (speedrun-start-full-game-run))
                     ;; start the game normally
                     (else
+                     (reset-crate-count)
                      (initialize! *game-info* 'game (the-as game-save #f) "intro-start")))
               (set-master-mode 'game)
               )

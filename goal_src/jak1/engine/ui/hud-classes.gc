@@ -531,7 +531,7 @@
            (s4-1 (-> s3-0 base))
            )
       (let ((s2-0 draw-string-xy))
-        (format (clear *temp-string*) "TODO ~D/~D" (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money)) (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money)))
+        (format (clear *temp-string*) "~D/~D" (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money)) (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money)))
         (s2-0
           *temp-string*
           s3-0

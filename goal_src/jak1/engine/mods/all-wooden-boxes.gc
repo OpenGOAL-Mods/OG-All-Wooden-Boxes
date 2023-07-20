@@ -90,10 +90,10 @@ End notes
  (set! (-> *wc-settings* wc-list level i num-total-money) 52.0))
 
 (("jungle")
- (set! (-> *wc-settings* wc-list level i num-total-money) 47.0))
+ (set! (-> *wc-settings* wc-list level i num-total-money) 46.0));;was 47
 
 (("misty")
- (set! (-> *wc-settings* wc-list level i num-total-money) 39.0))
+ (set! (-> *wc-settings* wc-list level i num-total-money) 40.0));; was 39
 
 (("firecanyon")
  (set! (-> *wc-settings* wc-list level i num-total-money) 2.0))
@@ -102,7 +102,7 @@ End notes
  (set! (-> *wc-settings* wc-list level i num-total-money) 28.0))
 
 (("sunken")
- (set! (-> *wc-settings* wc-list level i num-total-money) 36.0))
+ (set! (-> *wc-settings* wc-list level i num-total-money) 38.0));;was 36
 
 (("swamp")
  (set! (-> *wc-settings* wc-list level i num-total-money) 71.0))
@@ -135,6 +135,13 @@ End notes
 )
 
 )
+(none)
+)
+
+(defun reset-crate-count ()
+(dotimes (i (* (- (level-name-enum max) 0) 1 ))
+(set! (-> *wc-settings* wc-list level i num-collected-money) 0.0))
+(set! *total-broken-crates* 0)
 (none)
 )
 

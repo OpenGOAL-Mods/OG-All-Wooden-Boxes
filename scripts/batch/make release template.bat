@@ -16,7 +16,7 @@ mkdir "%releaseDir%\data\game"
 xcopy /E /I "..\..\goal_src" "%releaseDir%\data\goal_src\"
 xcopy /E /I "..\..\custom_levels" "%releaseDir%\data\custom_levels\"
 xcopy /E /I "..\..\decompiler\config" "%releaseDir%\data\decompiler\config\"
-xcopy /E /I "..\..\game\assets" "%releaseDir%\data\game\assets\"
+xcopy /E /I "..\..\game\" "%releaseDir%\data\game\"
 xcopy /E /I "..\..\graphics" "%releaseDir%\data\graphics\"
 
 echo Done!
