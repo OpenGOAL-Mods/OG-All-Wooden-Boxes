@@ -737,6 +737,21 @@
     (let* ((string-x (+ (-> obj text-x) (* (-> obj x-sgn) (-> obj offset))))
            (string-y (/ (* (+ (-> obj text-y) (* (-> obj y-sgn) (-> obj offset)) (-> obj y-offset)) (the int (-> *video-parms* relative-y-scale))) 2))
            )
+
+            (draw-string-xy-scaled
+            (string-format 
+              "~D~%/~D"
+               (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money)) (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money)) ;;(-> (the progress (-> *progress-process* 0)) total-nb-of-orbs)
+              )
+            buf
+            string-x
+            (- string-y -30)
+            (font-color red)
+            (font-flags shadow kerning large)
+            0.6
+            )
+
+
       (case *hud-collectable-view*
         (((hud-collectable-view game-totals))
           ;; show orbs collected/total across entire game

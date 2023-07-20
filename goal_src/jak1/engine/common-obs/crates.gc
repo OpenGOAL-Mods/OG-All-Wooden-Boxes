@@ -920,15 +920,32 @@
                    ;; clean up the id stuff later
               
                    ;;(+! (-> *wc-settings* wc-list level level-idx num-collected-money) (the int 1))
+                
 
-                 (+! (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))  num-collected-money) (the float 1.0))
-                 (+! *total-broken-crates* (the float 1.0))
-                 (auto-save-command 'auto-save 0 0 *default-pool*)
-                 (if (= (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
+
+                (case-str (the-as string (-> self name))
+                (("crate-2470")
+                ;;This crate can be broken while in village 1 or beach, so we need to hardcode this case to beach
+                (+! (-> *wc-settings* wc-list level 2  num-collected-money) (the float 1.0))
+                (+! *total-broken-crates* (the float 1.0))
+                (auto-save-command 'auto-save 0 0 *default-pool*)
+                (if (= (-> *wc-settings* wc-list level 2 num-collected-money) (-> *wc-settings* wc-list level 2 num-total-money))
                          ;;(activate-crate-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
-                     (activate-orb-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)))))))
+                (activate-orb-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))))
+                )
+                (else
+                (+! (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))  num-collected-money) (the float 1.0))
+                (+! *total-broken-crates* (the float 1.0))
+                (auto-save-command 'auto-save 0 0 *default-pool*)
+                (if (= (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
+                         ;;(activate-crate-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
+                (activate-orb-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)))))))
                   
                 
+                
+  
+               )
+           )
 
                
           

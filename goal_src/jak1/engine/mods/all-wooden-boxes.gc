@@ -165,13 +165,13 @@ End notes
 
 ;; (if (or (= (-> *wc-settings* wc-list level i status) 0) (= (-> *wc-settings* wc-list level i status) #f))
 ;; (begin
-;;     (case-str (-> *wc-settings* wc-list level i name)
-;;       (("get-10-orbs")
-;;        (if  (>= (-> *game-info* money-total) 10.0)
-;;        (begin
-;;        (set! (-> *wc-settings* wc-list level i status) #t)
-;;        (activate-skill-point 3 (-> *wc-settings* wc-list level i name))))
-;;       )
+    ;; (case-str (-> *wc-settings* wc-list level i name)
+    ;;   (("get-10-orbs")
+    ;;    (if  (>= (-> *game-info* money-total) 10.0)
+    ;;    (begin
+    ;;    (set! (-> *wc-settings* wc-list level i status) #t)
+    ;;    (activate-skill-point 3 (-> *wc-settings* wc-list level i name))))
+    ;;   )
 ;;       (("get-2-powercells")
 ;;        (if  (and (not (movie?)) (>= (-> *game-info* fuel) 2.0))
 ;;        (begin
