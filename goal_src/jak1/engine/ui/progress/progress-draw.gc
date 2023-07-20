@@ -272,7 +272,8 @@
   0
   (none)
   )
-
+(define-extern *total-crates* int)
+(define-extern *total-broken-crates* int)
 (defmethod draw-buzzer-screen progress ((obj progress) (arg0 int))
   (hide-progress-icons)
   (let* ((v1-2 (-> *level-task-data* arg0))
@@ -295,8 +296,19 @@
       (set! s4-0 0)
       (set! f30-0 1.0)
       )
-    (set! (-> obj particles 14 init-pos x) (the float (- (+ a0-3 150) (-> obj left-x-offset))))
-    (set! (-> obj particles 14 init-pos y) (the float (+ s4-0 214)))
+
+    ;; Draw an orb, would be cool to make a crate one day.
+    ;; (set! (-> obj particles 15 init-pos x) (the float (- (+ a0-3 150) (-> obj left-x-offset))))
+    ;; (set! (-> obj particles 15 init-pos y) (the float (+ s4-0 214)))
+    ;; (set! (-> obj icons 4 icon-x) (- (+ 0 148) (-> obj left-x-offset)))
+    ;; (set! (-> obj icons 4 icon-y) (+ (-> obj big-orb-y-offset) s4-0))
+    ;; (let ((a0-15 (-> obj icons 4 icon 0 root)))
+    ;;   (set-yaw-angle-clear-roll-pitch!
+    ;;     a0-15
+    ;;     (- (y-angle a0-15) (* 182.04445 (* 4.0 (-> *display* time-adjust-ratio))))
+    ;;     )
+       ;;)
+
     (let ((s2-0 0))
       (let ((a1-8 (-> v1-2 buzzer-task-index)))
         (if (!= a1-8 -1)
@@ -308,7 +320,7 @@
                 'stack
                 'font-context
                 *font-default-matrix*
-                (- (+ s3-0 200) (-> obj left-x-offset))
+                (- (+ s3-0 150) (-> obj left-x-offset))
                 (+ (/ s4-0 2) 96)
                 8325000.0
                 (font-color default)
@@ -324,13 +336,14 @@
           )
         (set! (-> s4-1 flags) (font-flags shadow kerning large))
         (let ((s3-1 print-game-text-scaled))
-          (format (clear *temp-string*) "~D/~D" s2-0 (-> *game-counts* data arg0 buzzer-count))
-          (s3-1 *temp-string* f30-0 s4-1 (the int (* 128.0 f30-0)))
+          (format (clear *temp-string*) "CRATES: ~D/~D" (the int (-> *wc-settings* wc-list level arg0 num-collected-money)) (the int (-> *wc-settings* wc-list level arg0 num-total-money)))
+          (s3-1 *temp-string* (- f30-0 0) s4-1 (the int (* 128.0 f30-0)))
           )
+          ;;position is gross
         (let ((v1-14 s4-1))
           (set! (-> v1-14 width) (the float 428))
           )
-        (+! (-> s4-1 origin x) -220.0)
+        (+! (-> s4-1 origin x) -130.0)
         (+! (-> s4-1 origin y) 40.0)
         (set! (-> s4-1 flags) (font-flags shadow kerning middle large))
         (print-game-text-scaled
@@ -341,7 +354,8 @@
           )
         (+! (-> s4-1 origin y) 15.0)
         (let ((s5-2 print-game-text-scaled))
-          (format (clear *temp-string*) "~D/~D" (the int (-> *game-info* buzzer-total)) (-> obj total-nb-of-buzzers))
+        
+          (format (clear *temp-string*) "~D/~D" *total-broken-crates* *total-crates*)
           (s5-2 *temp-string* f30-0 s4-1 (the int (* 128.0 f30-0)))
           )
         )

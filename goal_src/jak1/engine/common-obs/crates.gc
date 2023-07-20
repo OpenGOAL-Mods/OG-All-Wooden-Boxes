@@ -5,6 +5,69 @@
 ;; name in dgo: crates
 ;; dgos: GAME, ENGINE
 
+(define *total-broken-crates* 0)
+
+
+(deftype wood-crate-level-list (structure)
+  ((name  string)
+   (level-idx  int)
+   (num-total-money  float)
+   (num-collected-money  float)
+   )
+  :pack-me
+  )
+
+(defconstant NUMBER_OF_LEVELS 75)
+
+(deftype wood-crate-settings-obj (structure)
+  (
+   (level wood-crate-level-list NUMBER_OF_LEVELS :inline)
+   )
+  :pack-me
+  )
+
+;;(music pc-music-log-entry PC_MUSIC_LOG_LENGTH :inline)
+
+
+
+(deftype wc-settings (basic)
+  ((version pckernel-version) ;; version of this settings
+
+   ;; All the tasks
+   (target-fps int16) ;; the target framerate of the game
+   (dpi-x float) ;; DPI width scale
+   (dpi-y float) ;; DPI height scale
+   (aspect-ratio-auto? symbol) ;; if on, aspect ratio is calculated automatically based on game display size.
+
+   ;; task trackers save to file
+   (bingo pc-bingo-info :inline) ;; bingo integration. does nothing for now.
+   (wc-list wood-crate-settings-obj :inline) ;; hidden goodies and additional secrets!
+
+
+   ;; TODO - save/restore original settings (language/sound/etc)
+   )
+
+  (:methods
+    (new (symbol type) _type_)
+    (update (_type_) none)
+    (reset (_type_ symbol) int)
+   ;;(reset-audio (_type_ symbol) int)
+    (read-from-file (_type_ string) symbol)
+    (write-to-file (_type_ string) symbol)
+    ;;(handle-input-settings (_type_ file-stream) object)
+    (handle-output-settings (_type_ file-stream) object)
+    ;;(update-cheats (_type_) int)
+    (commit-to-file (_type_) none)
+    (load-settings (_type_) int)
+    )
+  )
+
+
+
+(define *wc-settings* (the wc-settings #f))
+(define-once *wc-settings* (new 'global 'wc-settings))
+
+
 (declare-type crate process-drawable)
 (declare-type crate-buzzer crate)
 
@@ -791,6 +854,7 @@
          )
        )
       )
+      
     )
   :trans (behavior ()
     (case (-> self type)
@@ -835,8 +899,45 @@
          )
         (else
           (sound-play "wcrate-break")
+
+          (let ((proc (handle->process  self)))
+            (process-entity-status! self (entity-perm-status dead) #t)
+                                (process-entity-status! self (entity-perm-status bit-4) #f)
+                              (process-entity-status! self (entity-perm-status dead) #t)
+                              (process-entity-status! self (entity-perm-status complete) #t)
+            (set! (-> self entity extra perm task) (game-task complete))
+                (cleanup-for-death self)
+
+           
+               
+               ;; increment our total money in the game (out of the 2000 max orbs)
+               ;;(+! (-> obj woodcrate-total) amount) total later
+
+
+         
+             ;; get the level index
+             
+              ;; clean up the id stuff later
+              
+              ;;(+! (-> *wc-settings* wc-list level level-idx num-collected-money) (the int 1))
+
+            (+! (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1))  num-collected-money) (the float 1.0))
+            (+! *total-broken-crates* (the float 1.0))
+            (auto-save-command 'auto-save 0 0 *default-pool*)
+            (if (= (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
+                    ;;(activate-crate-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money) (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money))
+                    (activate-orb-all (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) )
+                  )
+                
+
+               
           )
         )
+      )
+    
+        
+      
+      
       (case (-> self defense)
         (('darkeco)
          (let ((f0-0

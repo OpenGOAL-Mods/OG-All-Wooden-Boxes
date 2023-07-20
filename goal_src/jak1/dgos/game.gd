@@ -349,6 +349,7 @@
   "mod-settings.o" ;; added
   "mod-common-functions.o" ;; added
   "mod-custom-code.o" ;; added
+  "all-wooden-boxes.o" ;; added
   ;; keep zoomer stuff loaded
   "target-racer-h.o"
   "racer-part.o"

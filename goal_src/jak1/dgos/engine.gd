@@ -282,6 +282,7 @@
   "process-taskable.o"
   "pov-camera.o"
   "powerups.o"
+  "all-wooden-boxes.o" ;; added
   "crates.o"
   "hud.o"
   "hud-classes.o"

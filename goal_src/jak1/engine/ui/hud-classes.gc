@@ -531,7 +531,7 @@
            (s4-1 (-> s3-0 base))
            )
       (let ((s2-0 draw-string-xy))
-        (format (clear *temp-string*) "~D/~D" (-> obj total-orbs) (-> obj total-orbs))
+        (format (clear *temp-string*) "TODO ~D/~D" (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-collected-money)) (the int (-> *wc-settings* wc-list level (-> *level-task-data-remap* (+ (-> *target* current-level info index) -1)) num-total-money)))
         (s2-0
           *temp-string*
           s3-0
@@ -596,7 +596,7 @@
   (when (< (-> obj nb-of-icons) 6)
     (let ((s4-0 (-> obj nb-of-icons)))
       (set! (-> obj icons s4-0) (new 'static 'hud-icon))
-      (let ((s3-0 (manipy-spawn (new 'static 'vector :w 1.0) #f *money-sg* #f :to obj)))
+      (let ((s3-0 (manipy-spawn (new 'static 'vector :w 1.0) #f *crate-wood-sg* #f :to obj)))
         (when s3-0
           (set! (-> (the-as process-drawable (-> s3-0 0)) draw dma-add-func) dma-add-process-drawable-hud)
           (set-vector! (-> (the-as process-drawable (-> s3-0 0)) root trans) 0.0 0.0 0.0 1.0)
@@ -620,17 +620,7 @@
       )
     (+! (-> obj nb-of-icons) 1)
     )
-  (when (< (-> obj nb-of-particles) (-> obj max-nb-of-particles))
-    (let ((s4-1 (-> obj nb-of-particles)))
-      (set! (-> obj particles s4-1) (new 'static 'hud-particle))
-      (set! (-> obj particles s4-1 part) (create-launch-control (-> *part-group-id-table* 705) obj))
-      (set! (-> obj particles s4-1 init-pos x) 172.0)
-      (set! (-> obj particles s4-1 init-pos y) 330.0)
-      (set! (-> obj particles s4-1 init-pos z) 2.0)
-      (set! (-> obj particles s4-1 part matrix) -1)
-      )
-    (+! (-> obj nb-of-particles) 1)
-    )
+
   (set-pos-and-scale obj (= (get-aspect-ratio) 'aspect16x9) (= (get-video-mode) 'pal))
   (dotimes (s4-3 (-> obj nb-of-particles))
     (if (= (-> obj particles s4-3 part matrix) -1)
@@ -691,13 +681,13 @@
             )
       )
     (else
-      (set! (-> obj x-scale) 0.013499999)
-      (set! (-> obj y-scale) -0.01575)
+      (set! (-> obj x-scale) (/ 0.013499999 2.0))
+      (set! (-> obj y-scale) (/ -0.01575 2.0))
       (set! (-> obj y-pos) 361)
       )
     )
   (when arg1
-    (set! (-> obj x-scale) (* 1.02 (-> obj x-scale)))
+    (set! (-> obj x-scale) (* 1.2 (-> obj x-scale)))
     (set! (-> obj y-scale) (* 1.2 (-> obj y-scale)))
     (set! (-> obj y-pos) (the int (* 1.21 (the float (-> obj y-pos)))))
     )
